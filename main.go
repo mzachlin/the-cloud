@@ -22,6 +22,12 @@ func repeatHandler(r int) gin.HandlerFunc {
   }
 }
 
+func handleDateEntry() gin.HandlerFunc {
+  return func(c *gin.Context) {
+    log.Print("You have selected a month!")
+  }
+}
+
 func main() {
 	port := os.Getenv("PORT")
 
@@ -41,13 +47,16 @@ func main() {
 	router.Static("/static", "static")
 
 	router.GET("/", func(c *gin.Context) {
+    log.Print("Welcome to the home page.")
 		c.HTML(http.StatusOK, "index.tmpl.html", nil)
 	})
 
+  // TODO: get rid of this later
   router.GET("/mark", func(c *gin.Context) {
     c.String(http.StatusOK, string(blackfriday.Run([]byte("**hi!**"))))
   })
 
+  // TODO: get rid of this later
   router.GET("/repeat", repeatHandler(repeat))
 
 	router.Run(":" + port)
