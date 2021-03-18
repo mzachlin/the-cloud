@@ -6,7 +6,7 @@ function monthSelected() {
 
 function submitDate() {  // Called when user clicks the "Let's Go!" button
     console.log("submitted.");
-    var month = document.getElementById("monthSelector");
+    //var month = document.getElementById("monthSelector");
     var day = document.getElementById("dayInput").value;
     day = parseInt(day);
     var alertString;
@@ -16,8 +16,8 @@ function submitDate() {  // Called when user clicks the "Let's Go!" button
     else {
         alertString = "Invalid day selected!  Please enter a number in the text box and try again."
     }
-    console.log(month.value);  //FIXME: not sure how to get the value from the dropdown yet
-    console.log(day.value);
+    //console.log(month.value);  //FIXME: not sure how to get the value from the dropdown yet
+    console.log(day);
 
     // Write date to alert for now
     document.getElementById("alert-text").innerHTML = alertString;
