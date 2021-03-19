@@ -11,7 +11,7 @@ function submitDate() {  // Called when user clicks the "Let's Go!" button
     day = parseInt(day);
     var alertString;
     if (day && day > 0 && day <= 31) {
-        alertString = "You chose: " + day;
+        alertString = "You chose day " + day;
     }
     else {
         alertString = "Invalid day selected!  Please enter a number in the text box and try again."

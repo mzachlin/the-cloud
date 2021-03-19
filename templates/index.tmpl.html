@@ -3,57 +3,49 @@
 <body>
   {{template "nav.tmpl.html"}}
 
-<div class="jumbotron text-center jumbo-background">
-  <div class="container">
-    <h1>It's time to get fit.</h1>
-    <p class="subtitle">Here's your one stop shop for snagging those elusive gym slots.  Just enter a date to get started.</p>
-      
-      <div class="col-12"> 
-        <div class="input-group w-25 mx-auto">
-          <div class="input-group-btn">
-            <button id="monthSelector" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Month <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-              <li><a href="#" onclick="monthSelected()">January</a></li>
-              <li><a href="#">February</a></li>
-              <li><a href="#">March</a></li>
-              <li><a href="#">April</a></li>
-              <li><a href="#">May</a></li>
-              <li><a href="#">June</a></li>
-              <li><a href="#">July</a></li>
-              <li><a href="#">August</a></li>
-              <li><a href="#">September</a></li>
-              <li><a href="#">October</a></li>
-              <li><a href="#">November</a></li>
-              <li><a href="#">December</a></li>
-            </ul>
+<div class="jumbo-background jumbotron text-center">
+  <h1 class="display-4">It's time to get fit.</h1>
+  <br>
+  <p class="lead">Here's your one stop shop for snagging those elusive gym slots.  Just enter a date to get started.</p>
+  <br><br>
+  <div class="row justify-content-center">
+    <div class="col-3">
+      <div class="dropdown-container">
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Month
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">January</a>
+            <a class="dropdown-item" href="#">February</a>
+            <a class="dropdown-item" href="#">March</a>
+            <a class="dropdown-item" href="#">April</a>
+            <a class="dropdown-item" href="#">May</a>
+            <a class="dropdown-item" href="#">June</a>
+            <a class="dropdown-item" href="#">July</a>
+            <a class="dropdown-item" href="#">August</a>
+            <a class="dropdown-item" href="#">September</a>
+            <a class="dropdown-item" href="#">October</a>
+            <a class="dropdown-item" href="#">November</a>
+            <a class="dropdown-item" href="#">December</a>
           </div>
-          <input type="text" id="dayInput" class="form-control" placeholder="Day" aria-label="...">
         </div>
-        <br> <br>
-        <a type="button" class="btn btn-lg btn-default" onclick="submitDate()"><span class="glyphiconglyphicon-flash"></span> Let's Go!</a>
-      </div> 
-    <!--<div class="dropdown-container">
-      <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-          Dropdown
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-          <li><a href="#">Action</a></li>
-          <li><a href="#">Another action</a></li>
-          <li><a href="#">Something else here</a></li>
-          <li role="separator" class="divider"></li>
-          <li><a href="#">Separated link</a></li>
-        </ul>
       </div>
-    </div> -->
-
+    </div>
+    <div class="col-3">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Day" aria-label="Day" aria-describedby="button-addon2" id="dayInput">
+        <div class="input-group-append">
+          <a class="btn btn-secondary" type="button" onclick="submitDate()" href="/get">Let's Go!</a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="container">
   <div class="alert alert-info text-center" id="alert-text" role="alert">
-       Enter the date and time range that you are available to work out in the dropdown menu above.
+       Enter the date and time range that you are available to work out in the form above.
   </div>
 </div>  
 

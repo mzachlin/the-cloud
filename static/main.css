@@ -10,11 +10,7 @@
 .jumbotron .btn-primary:hover {
     background: #d67c15; 
 }
-.jumbotron p {
-  color: #e7760c;
-  max-width: 75%;
-  margin: 1em auto 2em; 
-}
+
 .navbar + .jumbotron {
   margin-top: -20px; 
 }
@@ -36,7 +32,7 @@
 }
 /* My classes */
 .jumbo-background {
-  background: #6d45da;
+  background: #5350f1 !important;
 }
 .subtitle {
   color: antiquewhite !important;
