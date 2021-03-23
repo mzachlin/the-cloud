@@ -9,34 +9,37 @@
   <p class="lead">Here's your one stop shop for snagging those elusive gym slots.  Just enter a date to get started.</p>
   <br><br>
   <div class="row justify-content-center">
-    <div class="col-3">
-      <div class="dropdown-container">
+    <div class="col-2">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Month" aria-label="Month" aria-describedby="button-addon2" id="monthInput">
+      </div>
+      <!-- <div class="dropdown-container">
         <div class="dropdown">
           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Month
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">January</a>
-            <a class="dropdown-item" href="#">February</a>
-            <a class="dropdown-item" href="#">March</a>
-            <a class="dropdown-item" href="#">April</a>
-            <a class="dropdown-item" href="#">May</a>
-            <a class="dropdown-item" href="#">June</a>
-            <a class="dropdown-item" href="#">July</a>
-            <a class="dropdown-item" href="#">August</a>
-            <a class="dropdown-item" href="#">September</a>
-            <a class="dropdown-item" href="#">October</a>
-            <a class="dropdown-item" href="#">November</a>
-            <a class="dropdown-item" href="#">December</a>
+            <button class="dropdown-item" type="button">January</button>
+            <button class="dropdown-item" type="button">February</button>
+            <button class="dropdown-item" type="button">March</button>
+            <button class="dropdown-item" type="button">April</button>
+            <button class="dropdown-item" type="button">May</button>
+            <button class="dropdown-item" type="button">June</button>
+            <button class="dropdown-item" type="button">July</button>
+            <button class="dropdown-item" type="button">August</button>
+            <button class="dropdown-item" type="button">September</button>
+            <button class="dropdown-item" type="button">October</button>
+            <button class="dropdown-item" type="button">November</button>
+            <button class="dropdown-item" type="button">December</button>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
-    <div class="col-3">
+    <div class="col-2">
       <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Day" aria-label="Day" aria-describedby="button-addon2" id="dayInput">
         <div class="input-group-append">
-          <a class="btn btn-secondary" type="button" onclick="submitDate()" href="/get">Let's Go!</a>
+          <button class="btn btn-secondary" type="button" onclick="submitDate()">Let's Go!</a>
         </div>
       </div>
     </div>

@@ -6,12 +6,23 @@ function monthSelected() {
 
 function submitDate() {  // Called when user clicks the "Let's Go!" button
     console.log("submitted.");
-    //var month = document.getElementById("monthSelector");
+    var month = document.getElementById("monthInput").value;
     var day = document.getElementById("dayInput").value;
+    month = parseInt(month);
     day = parseInt(day);
     var alertString;
     if (day && day > 0 && day <= 31) {
-        alertString = "You chose day " + day;
+        if (month && month > 0 && month <= 12) {
+            alertString = "You chose month " + month + " and day " + day;
+            // Redirect to the get page with gym times, encoding the data in the URL
+            console.log(month);
+            console.log("testing ya");
+            window.location.href = "/get?month=" + month + "&day=" + day;
+        }
+        else {
+            alertString = "Invalid month selected!  Please enter a number in the text box and try again."
+        }
+        
     }
     else {
         alertString = "Invalid day selected!  Please enter a number in the text box and try again."
