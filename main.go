@@ -32,6 +32,8 @@ func main() {
 		// Handle query string parameters
 		month := c.Query("month")
 		day := c.Query("day")
+		start := c.Query("start")
+		end := c.Query("end")
 		resp, err := http.Get("https://recregister.nd.edu/Program/GetProgramDetails?courseId=4c286489-76bf-47ab-bac2-728e84d3fc13&semesterId=4b3cccac-5940-40b2-ac08-c201ffe58d85")
 		if err != nil {
 			// handle error
@@ -49,6 +51,10 @@ func main() {
 		c.String(http.StatusOK, month)
 		c.String(http.StatusOK, "\n")
 		c.String(http.StatusOK, day)
+		c.String(http.StatusOK, "\n")
+		c.String(http.StatusOK, start)
+		c.String(http.StatusOK, "\n")
+		c.String(http.StatusOK, end)
 		c.String(http.StatusOK, "\n")
 		c.String(http.StatusOK, "Rockne Memorial Building Slots:\n\n")
 		for i, s := range matches {
