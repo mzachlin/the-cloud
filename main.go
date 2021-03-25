@@ -60,7 +60,7 @@ func check_available(c *gin.Context) ([]string, []string) {
 	day := c.Query("day")
 	start := c.Query("start")
 	end := c.Query("end")
-	email := c.DefaultQuery("email")
+	email := c.DefaultQuery("email", "none")
 
 	log.Print(email)
 
