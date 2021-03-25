@@ -6,12 +6,14 @@ import (
 	"net/http"
 	"os"
 	"regexp"
-	"time"
 	"strconv"
+
 	"net/smtp"
 	//"gopkg.in/mail.v2"
 	//"fmt"
 	//"sync"
+
+	"time"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/heroku/x/hmetrics/onload"
@@ -52,19 +54,23 @@ func sleeper(c *gin.Context) {
 
 func check_available(c *gin.Context, do_print bool) string {
 
-	// Handle query string parameters
-	month := c.Query("month")
-	day := c.Query("day")
+		// Handle query string parameters
+		month := c.Query("month")
+		day := c.Query("day")
+		start := c.Query("start")
+		end := c.Query("end")
 
-	//HTTP Request
-	resp, err := http.Get("https://recregister.nd.edu/Program/GetProgramDetails?courseId=4c286489-76bf-47ab-bac2-728e84d3fc13&semesterId=4b3cccac-5940-40b2-ac08-c201ffe58d85")
-	if err != nil {
-		// handle error
-		log.Printf("looks like there's an error :(((( try not having errors!!")
-	}
+		//HTTP Request
+		resp, err := http.Get("https://recregister.nd.edu/Program/GetProgramDetails?courseId=4c286489-76bf-47ab-bac2-728e84d3fc13&semesterId=4b3cccac-5940-40b2-ac08-c201ffe58d85")
+		if err != nil {
+			// handle error
+			log.Printf("looks like there's an error :(((( try not having errors!!")
+		}
+
 
 	body, err := ioutil.ReadAll(resp.Body)
 	sb := string(body)
+
 
 	// find matches
 	re := regexp.MustCompile(`([0-9]+) spot\(s\)|No Spots Available`)
@@ -77,6 +83,18 @@ func check_available(c *gin.Context, do_print bool) string {
 	//create hash table of all available spots
 	var m map[string]string
 	m = make(map[string]string)
+
+		c.String(http.StatusOK, month)
+		c.String(http.StatusOK, "\n")
+		c.String(http.StatusOK, day)
+		c.String(http.StatusOK, "\n")
+		c.String(http.StatusOK, start)
+		c.String(http.StatusOK, "\n")
+		c.String(http.StatusOK, end)
+		c.String(http.StatusOK, "\n")
+
+		//create hash table of all available spots
+
 
 	for i, s := range matches {
 		key := string(matches3[i]) + string(matches2[i])
@@ -105,13 +123,15 @@ func check_available(c *gin.Context, do_print bool) string {
 		c.String(http.StatusOK, key_str)
 		c.String(http.StatusOK, "\n\n")
 
+		available := m[key_str]
+
 		c.String(http.StatusOK, available)
 		c.String(http.StatusOK, "\n\n")
 
 
 		c.String(http.StatusOK, "Rockne Memorial Building Slots:\n\n")
 
-		//Display all spots
+		//Display all available spots
 		for i, s := range matches {
 			s := string(s)
 			if s == "No Spots Available" {
