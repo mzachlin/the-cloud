@@ -1,14 +1,15 @@
 package main
 
 import (
+	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/smtp"
 	"os"
 	"regexp"
 	"strconv"
 
-	"net/smtp"
 	//"gopkg.in/mail.v2"
 	//"fmt"
 	//"sync"
@@ -20,12 +21,12 @@ import (
 )
 
 func sleeper(c *gin.Context) {
-	var available []string
+	var available, to_display []string
 	for {
 		log.Print("hello my name is ", string(c.Query("month")))
 		log.Print("and the time is ", time.Now().String())
-		available = check_available(c, false)
-		log.Print(available)
+		available, to_display = check_available(c)
+		log.Print(available, to_display)
 		time.Sleep(30 * time.Second)
 	}
 
@@ -52,13 +53,16 @@ func sleeper(c *gin.Context) {
 
 }
 
-func check_available(c *gin.Context, do_print bool) []string {
+func check_available(c *gin.Context) ([]string, []string) {
 
 	// Handle query string parameters
 	month := c.Query("month")
 	day := c.Query("day")
 	start := c.Query("start")
 	end := c.Query("end")
+	email := c.DefaultQuery("email")
+
+	log.Print(email)
 
 	//HTTP Request
 	resp, err := http.Get("https://recregister.nd.edu/Program/GetProgramDetails?courseId=4c286489-76bf-47ab-bac2-728e84d3fc13&semesterId=4b3cccac-5940-40b2-ac08-c201ffe58d85")
@@ -82,19 +86,8 @@ func check_available(c *gin.Context, do_print bool) []string {
 	var m map[string]string
 	m = make(map[string]string)
 
-	c.String(http.StatusOK, month)
-	c.String(http.StatusOK, "\n")
-	c.String(http.StatusOK, day)
-	c.String(http.StatusOK, "\n")
-	c.String(http.StatusOK, start)
-	c.String(http.StatusOK, "\n")
-	c.String(http.StatusOK, end)
-	c.String(http.StatusOK, "\n")
-
-	//create hash table of all available spots
-
 	for i, s := range matches {
-		key := string(matches3[i]) + string(matches2[i])
+		key := string(matches3[i]) + ": " + string(matches2[i])
 		m[key] = string(s)
 	}
 
@@ -145,54 +138,20 @@ func check_available(c *gin.Context, do_print bool) []string {
 	} //TODO: check for invalid time range combos
 
 	var available []string
-	c.String(http.StatusOK, "availability : ")
+	var to_display []string
+	// c.String(http.StatusOK, "availability : ")
 	for i := start_idx; i <= end_idx; i++ {
 		for j := i; j <= end_idx; j++ {
-			k_s := day_str + ", " + time.Month(m_int).String() + " " + string(day) + ", 2021" + all_times[i] + " - " + all_times[j]
+			k_s := day_str + ", " + time.Month(m_int).String() + " " + string(day) + ", 2021: " + all_times[i] + " - " + all_times[j]
 			av := m[k_s]
 			if av != "" {
-				if do_print {
-					c.String(http.StatusOK, "\n")
-					c.String(http.StatusOK, k_s)
-					c.String(http.StatusOK, " available: ")
-					c.String(http.StatusOK, av)
-					available = append(available, av)
-				}
+				to_display = append(to_display, k_s+" "+av)
+				available = append(available, av)
 			}
 		}
 	}
 
-	if do_print {
-
-		c.String(http.StatusOK, "Rockne Memorial Building Slots:\n\n")
-
-		//Display all available spots
-		for i, s := range matches {
-			s := string(s)
-			if s == "No Spots Available" {
-				c.String(http.StatusOK, "0 spot(s)")
-			} else {
-				c.String(http.StatusOK, s)
-			}
-			c.String(http.StatusOK, "\t\t")
-			c.String(http.StatusOK, string(matches2[i]))
-			c.String(http.StatusOK, "\t\t")
-			c.String(http.StatusOK, string(matches3[i]))
-			c.String(http.StatusOK, "\n")
-		}
-	}
-	defer resp.Body.Close()
-	return available
-
-	//FIXME: Testing templating stuff
-
-	// slot_str := ""
-
-	// for i := 0; i < 10; i++ {
-	// 	slot_str += "<li class=\"list-group-item\">" + strconv.Itoa(i) + "</li>\n"
-	// }
-
-	// c.HTML(http.StatusOK, "get.gohtml", gin.H{"Rock_Slots": template.HTML(slot_str)})
+	return available, to_display
 }
 
 func main() {
@@ -216,7 +175,16 @@ func main() {
 
 	router.GET("/get", func(c *gin.Context) {
 		//wg.Add(1)
-		check_available(c, true)
+		var available, to_display = check_available(c)
+		// Display availability in HTML
+		log.Print(available)
+		slot_str := ""
+		for i, disp := range to_display {
+			log.Print(i)
+			slot_str += "<li class=\"list-group-item\">" + disp + "</li>\n"
+		}
+		c.HTML(http.StatusOK, "get.gohtml", gin.H{"Rock_Slots": template.HTML(slot_str)})
+
 		go sleeper(c)
 	})
 
